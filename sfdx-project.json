@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": "CodetestPackage",
+      "default": true
+    }
+  ],
+  "name": "CodeTest",
+  "namespace": "",
+  "sfdcLoginUrl": "https://creative-impala-pksmdj-dev-ed.my.salesforce.com/",
+  "sourceApiVersion": "52.0"
+}
