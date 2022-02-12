@@ -58,8 +58,7 @@ export default class LoginPage extends LightningElement {
                 this.dispatchEvent(new CustomEvent('uservalidated', { detail: validation }));
             } else {
                 this.showError = true;
-                this.errorText =  "Server request failed";
-                
+                this.errorText =  "Server request failed";                
             }
         })
         .catch((error) => {

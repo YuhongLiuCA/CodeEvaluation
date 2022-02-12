@@ -1,0 +1,8 @@
+<template>
+    <template if:false={userLoginOK} >
+        <c-login-page></c-login-page>
+    </template>
+    <template if:true={userLoginOK} onuservalidated={handleValidation}>
+        <h1>Hello Test Code</h1>
+    </template>
+</template>
