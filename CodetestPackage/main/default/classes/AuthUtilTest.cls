@@ -1,5 +1,37 @@
 @isTest
 public class AuthUtilTest {
+    @isTest 
+    public static void TP_getDefaultUser() {
+        Test.startTest();
+        Boolean defaultUser = AuthUtil.getDefaultUser();
+        System.assertEquals(false,defaultUser);
+
+        AuthenticationInfo__c newAuthInfo = new AuthenticationInfo__c();
+        newAuthInfo.AccessToken__c = 'abcdefghijklmno';
+        newAuthInfo.RefreshToken__c = 'abcdefghijklmno';
+        newAuthInfo.Status__c = 'active';
+        newAuthInfo.User__c = 'yuhongliu.ca@gmail.com';
+        Insert newAuthInfo;
+
+        defaultUser = AuthUtil.getDefaultUser();
+        System.assertEquals(true,defaultUser);
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void TP_setDefaultUser() {
+        Test.startTest();
+        AuthUtil.setDefaultUser();
+        String name = 'yuhongliu.ca@gmail.com';
+        AuthenticationInfo__c newInfo = [
+            SELECT AccessToken__c, RefreshToken__c, Status__c 
+            FROM AuthenticationInfo__c 
+            WHERE User__c = :name LIMIT 1
+        ];
+        System.assertEquals('abcdefghijklmno', newInfo.AccessToken__c);
+        Test.stopTest();
+    }
+
     @isTest
     public static void TP_AuthenticateValid() {
         String mockCode = 'mockauthcode';

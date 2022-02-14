@@ -39,6 +39,47 @@ public with sharing class AuthUtil {
         }
         return true;
     }
+
+    public static Boolean userAuthenticated(String code, String user) {
+        AuthenticationInfo__c[] auths = [
+            SELECT AccessToken__c, RefreshToken__c, Status__c,User__c
+            FROM AuthenticationInfo__c 
+            WHERE User__c = :user
+        ];
+        for(AuthenticationInfo__c auth: auths) {
+            if(auth.AccessToken__c == code) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean getDefaultUser() {
+        String defaultName = 'yuhongliu.ca@gmail.com';
+        AuthenticationInfo__c defaultUser;
+        Boolean result;
+        try {
+            defaultUser = [
+                SELECT AccessToken__c, RefreshToken__c, Status__c,User__c
+                FROM AuthenticationInfo__c 
+                WHERE User__c = :defaultName LIMIT 1
+            ];
+            result = true;
+        } catch(Exception ex) {
+            result = false;
+        }
+        return result; 
+    }
+
+    public static void setDefaultUser() {
+        AuthenticationInfo__c newAuthInfo = new AuthenticationInfo__c();
+        newAuthInfo.AccessToken__c = 'abcdefghijklmno';
+        newAuthInfo.RefreshToken__c = 'abcdefghijklmno';
+        newAuthInfo.Status__c = 'active';
+        newAuthInfo.User__c = 'yuhongliu.ca@gmail.com';
+        Insert newAuthInfo;
+    }
+
     public static RESTutil.ResponseCategory refreshSession() {
         AuthenticationInfo__c authInfo = getAuthInfo();
         return serverAuthentication(RESTutil.RequestType.REFRESH, authInfo.RefreshToken__c);

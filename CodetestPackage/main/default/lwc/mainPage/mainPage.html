@@ -1,4 +1,4 @@
 <template>
-    <c-login-page if:false={userLoginOK}></c-login-page>
+    <c-login-page if:false={userLoginOK} onuservalidated={handleValidation}></c-login-page>
     <c-test-center if:true={userLoginOK} ></c-test-center>
 </template>

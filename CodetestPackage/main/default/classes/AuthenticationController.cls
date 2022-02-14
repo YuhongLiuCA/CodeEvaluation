@@ -1,4 +1,20 @@
 public without sharing class AuthenticationController {
+
+    @AuraEnabled(cacheable=true)
+    public static Boolean verifyUser(String code, string user) {
+        return AuthUtil.userAuthenticated(code,user);
+    }
+
+    @AuraEnabled
+    public static Boolean getDefaultUser(){
+        return AuthUtil.getDefaultUser();
+    }
+
+    @AuraEnabled
+    public static void setDefaultUser(){
+        AuthUtil.setDefaultUser();
+    }
+
     @AuraEnabled(cacheable=true)
     public static String SiteUrl() {
         ServerInfo__mdt server = [
