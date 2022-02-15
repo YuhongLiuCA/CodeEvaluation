@@ -1,0 +1,38 @@
+.mainContainer {
+    background-color: rgb(242, 242, 242);
+    border-radius: 5px;
+    padding: 16px;
+    position: relative;
+}
+
+.spinnerContainer {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.elements {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.edgeElementTop {
+    margin-bottom: 5px;
+}
+
+.edgeElementBottom {
+    margin-top: 5px;
+    display: block;
+}
+
+.placeholderInputContainer {
+    border-width: 2px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: rgb(187, 187, 187);
+    padding: 5px;
+}
+
+.classPlaceholderInput {
+    margin-bottom: 5px;
+}
