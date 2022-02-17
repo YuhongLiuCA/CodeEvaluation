@@ -22,7 +22,8 @@ export default class TestEnvironment extends LightningElement {
     }
 
     renderedCallback(){
-        this.question = this.questionList.questions[this.questionIndex];
+        //this.question = this.questionList.questions[this.questionIndex];
+        this.question = this.questionList;
     }
 
     addSubmission(event){

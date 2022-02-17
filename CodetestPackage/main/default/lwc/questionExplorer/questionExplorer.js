@@ -1,5 +1,6 @@
 import { LightningElement, track } from 'lwc';
-import getQuestionSet from '@salesforce/apex/RESTcallout.getQuestionSet';
+//import getQuestionSet from '@salesforce/apex/RESTcallout.getQuestionSet';
+import getQuestionSet from '@salesforce/apex/questionExplorerController.getQuestionSet';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class QuestionExplorer extends LightningElement {
@@ -15,7 +16,12 @@ export default class QuestionExplorer extends LightningElement {
     }
 
     getQuestionSets(){
-        getQuestionSet({url:""}).then((result) =>{
+        getQuestionSet().then((result) => {
+            this.questionSet = result;
+        }).catch((error) => {
+            console.log(error);
+        });
+        /*getQuestionSet({url:""}).then((result) =>{
             if(result == "UNAUTHENTICATED"){
                 return;
             }
@@ -28,7 +34,7 @@ export default class QuestionExplorer extends LightningElement {
                 result = JSON.parse(JSON.parse(result));
                 this.getQuestions(result.entries);
             }
-        });
+        });*/
     }
 
     getQuestions(sets){
@@ -54,7 +60,6 @@ export default class QuestionExplorer extends LightningElement {
             detail: event.detail
         });
         this.dispatchEvent(selectevent);
-        console.log(event.detail);
     }
 
     showErrorToast(error){

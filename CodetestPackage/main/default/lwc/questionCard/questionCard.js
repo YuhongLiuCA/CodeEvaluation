@@ -7,7 +7,6 @@ export default class QuestionCard extends LightningElement {
         const solveEvent = new CustomEvent('solvequestionset', {
             detail: this.questionSet
         });
-        this.dispatchEvent(solveEvent);
-        
+        this.dispatchEvent(solveEvent);  
     };
 }
