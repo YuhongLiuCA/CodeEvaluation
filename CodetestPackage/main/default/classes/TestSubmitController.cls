@@ -67,6 +67,7 @@ public with sharing class TestSubmitController {
             request.checkOnly = true;
 
             result = apex.compileAndTest(request);
+            return result;
 
             if(isTrigger) return JSON.serializePretty(result.triggers);
 

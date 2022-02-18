@@ -22,12 +22,12 @@ export default class AnswerContainer extends LightningElement {
 
         let answerBox = this.template.querySelector('c-answer-box');
         let responseString = answerBox.getCandidateResponse();
-        let isTrigger = this.question.topic == "Apex Triggers";
+        let isTrigger = this.question.QuestionTopic__c == "Apex Triggers";
 
         this.openModal = false;
         this.loading = true;
 
-        submitResponse({response: responseString, testClass: this.question.testFile, isTrigger: isTrigger}).then((result) =>{
+        submitResponse({response: responseString, testClass: this.question.TestClassText__c, isTrigger: isTrigger}).then((result) =>{
 
             let submitResult = JSON.parse(result); // Result Type = SOAP-API CompileAndTestResult
             let testResult = submitResult.runTestsResult;
@@ -51,16 +51,21 @@ export default class AnswerContainer extends LightningElement {
 
     handleCodeRun(event){
 
+        console.log("Code run");
+
         let answerBox = this.template.querySelector('c-answer-box');
         let resultBox = this.template.querySelector('c-result-box');
-        let isTrigger = this.question.topic == "Apex Triggers";
-        let responseString = answerBox.getCandidateResponse();
+        let isTrigger = this.question.QuestionTopic__c == "Apex Triggers";
+        let responseString = "" + answerBox.getCandidateResponse();
+        console.log(responseString);
 
         resultBox.setAsLoading();
         
         compileResponse({response: responseString, isTrigger: isTrigger}).then((result) =>{
 
+            console.log(compileResult);
             let compileResult = JSON.parse(result)[0]; // Result Type = SOAP-API CompileTestResult
+            
 
             let resultInfo = {
                 success: compileResult.success,
@@ -82,7 +87,7 @@ export default class AnswerContainer extends LightningElement {
         this.startTime = this.getFormattedDateTime();
         let answerBox = this.template.querySelector('c-answer-box');
         let resultBox = this.template.querySelector('c-result-box');
-        answerBox.method = this.question.placeholder;
+        answerBox.method = this.question.PlaceHolder__c;
         answerBox.reset();
         resultBox.reset();
     }
@@ -91,7 +96,7 @@ export default class AnswerContainer extends LightningElement {
     generateAPISubmissionElement(testResult){
         let submissionElement = {
             url : this.question.identifier,
-            name : this.question.name,
+            name : this.question.Name,
             startTime : this.startTime,
             endTime : this.getFormattedDateTime(),
             methods : []
@@ -99,7 +104,7 @@ export default class AnswerContainer extends LightningElement {
 
         //We need the method name for API object, without testResults must be parsed out
         if(testResult.numTestsRun == 0){
-            let isTestChunks = this.question.testFile.split('@isTest');
+            let isTestChunks = this.question.TestClassText__c.split('@isTest');
             isTestChunks.splice(0,2); //Remove class Declaration
 
             let methods = [];

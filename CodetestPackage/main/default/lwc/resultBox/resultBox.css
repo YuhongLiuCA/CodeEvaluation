@@ -1,4 +1,4 @@
-:host{
+/*:host{
     --slds-c-card-color-background: lightgrey;
     --lwc-cardColorBackground: lightgrey;
 
@@ -12,7 +12,7 @@
     --sds-c-card-body-spacing-inline: 0;
     --lwc-varSpacingVerticalSmall: 0;
     --lwc-varSpacingVerticalSmall: 0;
-}
+} */
 
 .resultsContainer{
     padding: 1rem;

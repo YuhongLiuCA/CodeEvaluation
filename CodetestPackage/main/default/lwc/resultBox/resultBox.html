@@ -1,9 +1,10 @@
 <template>
-    
-        <lightning-card  title="Compile Results" class="header">
-            <lightning-button variant="base" icon-name={toggleLabel} slot="actions" onclick={toggleResultsPanel}></lightning-button>
-                <div if:true={showResults}>
-                    <div if:true={showCompileResults}>
+    <lightning-card  title="Compile Results" class="header">
+        <lightning-button variant="base" icon-name={toggleLabel} slot="actions" onclick={toggleResultsPanel}>   
+        </lightning-button>
+
+        <template if:true={showResults}>
+                    <template if:true={showCompileResults}>
                         <div if:true={results.success} class="resultsContainer">
                             <p>Compile Reults: <span class="slds-text-color_success">SUCCESSFUL</span></p>
                         </div>
@@ -14,7 +15,7 @@
                                 <p>Line {results.line}:{results.column}</p>
                             </div>
                         </div>
-                    </div> 
+                    </template>
 
                     <template if:false={showCompileResults} >
                         <div class="resultsContainer slds-text-heading_small">
@@ -25,6 +26,6 @@
                     <template if:true={loading} >
                         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                     </template>
-                </div> 
-        </lightning-card>
+        </template>
+    </lightning-card>
 </template>

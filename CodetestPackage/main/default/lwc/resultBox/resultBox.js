@@ -1,7 +1,8 @@
-import { api, LightningElement } from 'lwc';
+import { api, track, LightningElement } from 'lwc';
 
 export default class ResultBox extends LightningElement {
 
+    @track
     results;
     showCompileResults = false;
     showResults = false;
