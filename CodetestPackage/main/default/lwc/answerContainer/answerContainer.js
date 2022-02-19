@@ -1,7 +1,8 @@
 import { LightningElement, api, track} from 'lwc';
 
 import submitResponse from "@salesforce/apex/TestSubmitController.submitResponse";
-import compileResponse from "@salesforce/apex/TestSubmitController.compileClass";
+//import compileResponse from "@salesforce/apex/TestSubmitController.compileClass";
+import compileResponse from "@salesforce/apex/TestSubmitController.compileAndTestClass";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
@@ -56,14 +57,14 @@ export default class AnswerContainer extends LightningElement {
         let answerBox = this.template.querySelector('c-answer-box');
         let resultBox = this.template.querySelector('c-result-box');
         let isTrigger = this.question.QuestionTopic__c == "Apex Triggers";
-        let responseString = "" + answerBox.getCandidateResponse();
+        let responseString = answerBox.getCandidateResponse();
         console.log(responseString);
 
         resultBox.setAsLoading();
         
         compileResponse({response: responseString, isTrigger: isTrigger}).then((result) =>{
 
-            console.log(compileResult);
+            console.log(result);
             let compileResult = JSON.parse(result)[0]; // Result Type = SOAP-API CompileTestResult
             
 

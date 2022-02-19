@@ -67,11 +67,50 @@ public with sharing class TestSubmitController {
             request.checkOnly = true;
 
             result = apex.compileAndTest(request);
-            return result;
 
             if(isTrigger) return JSON.serializePretty(result.triggers);
 
             return JSON.serializePretty(result.classes);
+
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+
+    @AuraEnabled
+    public static String compileAndTestClass(String response, Boolean isTrigger){
+        try {
+            soapSforceCom200608Apex.compileAndTest_element request_x = new soapSforceCom200608Apex.compileAndTest_element();
+
+            soapSforceCom200608Apex.compileAndTestResponse_element response_x;
+
+            if(isTrigger){
+                request_x.CompileAndTestRequest.triggers = new String[]{response};
+            }
+            else{
+                request_x.CompileAndTestRequest.classes = new String[]{response};
+            }
+
+            Map<String, soapSforceCom200608Apex.compileAndTestResponse_element> response_map_x = new Map<String, soapSforceCom200608Apex.compileAndTestResponse_element>();
+            response_map_x.put('response_x', response_x);
+            WebServiceCallout.invoke(
+              this,
+              request_x,
+              response_map_x,
+              new String[]{endpoint_x,
+              '',
+              'http://soap.sforce.com/2006/08/apex',
+              'compileAndTest',
+              'http://soap.sforce.com/2006/08/apex',
+              'compileAndTestResponse',
+              'soapSforceCom200608Apex.compileAndTestResponse_element'}
+            );
+            response_x = response_map_x.get('response_x');
+            //return response_x.result;
+            if(isTrigger) return JSON.serializePretty(response_x.result.triggers);
+
+            return JSON.serializePretty(response_x.result.classes);
 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -95,7 +134,7 @@ public with sharing class TestSubmitController {
 
         }
         return sessionId; */
-        return '';
+        return '123456';
     }
 
     private static String parseOutTestClassName(String testClass){
