@@ -30,9 +30,9 @@ public with sharing class TestSubmitController {
             request.runTestsRequest = new soapSforceCom200608Apex.RunTestsRequest();
             request.runTestsRequest.classes = new String[]{testClassName};
             request.runTestsRequest.allTests = false;
-            request.runTestsRequest.maxFailedTests = -1;
-            request.runTestsRequest.skipCodeCoverage = true;
-            request.runTestsRequest.tests = null;
+            //request.runTestsRequest.maxFailedTests = -1;
+            //request.runTestsRequest.skipCodeCoverage = true;
+            //request.runTestsRequest.tests = null;
 
             result = apex.compileAndTest(request);
 
@@ -81,37 +81,33 @@ public with sharing class TestSubmitController {
     @AuraEnabled
     public static String compileAndTestClass(String response, Boolean isTrigger){
         try {
-            soapSforceCom200608Apex.compileAndTest_element request_x = new soapSforceCom200608Apex.compileAndTest_element();
 
-            soapSforceCom200608Apex.compileAndTestResponse_element response_x;
+            soapSforceCom200608Apex.Apex apex;
+            soapSforceCom200608Apex.CompileAndTestRequest request;
+            soapSforceCom200608Apex.CompileAndTestResult result;
+
+            apex = new soapSforceCom200608Apex.Apex();
+            apex.endpoint_x = URL.getSalesforceBaseUrl().toExternalForm() + '/services/Soap/s/53.0';
+            apex.SessionHeader = new soapSforceCom200608Apex.SessionHeader_element();
+            apex.SessionHeader.sessionId = fetchUserSessionId();
+
+            request = new soapSforceCom200608Apex.CompileAndTestRequest();
 
             if(isTrigger){
-                request_x.CompileAndTestRequest.triggers = new String[]{response};
+                request.triggers = new String[]{response};
             }
             else{
-                request_x.CompileAndTestRequest.classes = new String[]{response};
+                request.classes = new String[]{response};
             }
+            
+            request.checkOnly = true;
 
-            Map<String, soapSforceCom200608Apex.compileAndTestResponse_element> response_map_x = new Map<String, soapSforceCom200608Apex.compileAndTestResponse_element>();
-            response_map_x.put('response_x', response_x);
-            WebServiceCallout.invoke(
-              this,
-              request_x,
-              response_map_x,
-              new String[]{endpoint_x,
-              '',
-              'http://soap.sforce.com/2006/08/apex',
-              'compileAndTest',
-              'http://soap.sforce.com/2006/08/apex',
-              'compileAndTestResponse',
-              'soapSforceCom200608Apex.compileAndTestResponse_element'}
-            );
-            response_x = response_map_x.get('response_x');
-            //return response_x.result;
-            if(isTrigger) return JSON.serializePretty(response_x.result.triggers);
+            result = apex.compileAndTest(request);
 
-            return JSON.serializePretty(response_x.result.classes);
+            if(isTrigger) return JSON.serializePretty(result.triggers);
 
+            return JSON.serializePretty(result.classes);            
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -121,7 +117,7 @@ public with sharing class TestSubmitController {
         
     @TestVisible
     private static String fetchUserSessionId(){
-        /*String sessionId = '';
+        String sessionId = '';
         PageReference reportPage = Page.sessionIdVfPage;
         try {
             String vfContent = reportPage.getContent().toString();
@@ -133,8 +129,7 @@ public with sharing class TestSubmitController {
             sessionId = '123456';
 
         }
-        return sessionId; */
-        return '123456';
+        return sessionId; 
     }
 
     private static String parseOutTestClassName(String testClass){
