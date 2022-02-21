@@ -31,10 +31,12 @@ export default class AnswerContainer extends LightningElement {
         submitResponse({response: responseString, testClass: this.question.TestClassText__c, isTrigger: isTrigger}).then((result) =>{
 
             let submitResult = JSON.parse(result); // Result Type = SOAP-API CompileAndTestResult
+            console.log("Submit");
             let testResult = submitResult.runTestsResult;
             let submissionElement = this.generateAPISubmissionElement(testResult);
 
             console.log(submitResult);
+            console.log(testResult);
 
             // Test Environment handles compiling result data and changing questions
             let submission = new CustomEvent('submission',{detail: submissionElement});

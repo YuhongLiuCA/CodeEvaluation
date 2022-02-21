@@ -127,7 +127,6 @@ public with sharing class TestSubmitController {
             sessionId = vfContent.substring(startP, endP);
         } catch (Exception e) {
             sessionId = '123456';
-
         }
         return sessionId; 
     }
