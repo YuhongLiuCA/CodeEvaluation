@@ -39,10 +39,11 @@ export default class QuestionExplorer extends LightningElement {
 
     getQuestions(sets){
         sets.forEach(element => {
-            getQuestionSet({url:element.url}).then((questions) =>{
+            getQuestionSet().then((questions) =>{
                 if(questions){
-                    questions = JSON.parse(JSON.parse(questions));
-                    this.questionSet.push(questions);
+                    this.questionSet = result;
+                    //questions = JSON.parse(JSON.parse(questions));
+                    //this.questionSet.push(questions);
                 }
             });
         });

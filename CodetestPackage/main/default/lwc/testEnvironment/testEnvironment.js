@@ -31,13 +31,13 @@ export default class TestEnvironment extends LightningElement {
         
         this.questionIndex+=1;
 
-        if(this.questionIndex == this.questionList.questions.length){
-            this.sendTestDataToClient();
+        //if(this.questionIndex === this.questionList.questions.length){
+            //this.sendTestDataToClient();
             this.generateResultsReport();
-            return;
-        }
+            //return;
+        //}
 
-        this.setCurrentQuestion(this.questionList.questions[this.questionIndex]);
+        //this.setCurrentQuestion(this.questionList.questions[this.questionIndex]);
     }
 
     sendTestDataToClient(){
