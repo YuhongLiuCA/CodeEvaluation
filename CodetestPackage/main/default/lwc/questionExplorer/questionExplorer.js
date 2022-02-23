@@ -1,5 +1,4 @@
 import { LightningElement, track } from 'lwc';
-//import getQuestionSet from '@salesforce/apex/RESTcallout.getQuestionSet';
 import getQuestionSet from '@salesforce/apex/questionExplorerController.getQuestionSet';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 

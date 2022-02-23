@@ -8,8 +8,11 @@ public with sharing class questionExplorerController {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
-        System.debug(questionSet);
-        questionList = [SELECT Name,QuestionTopic__c,PlaceHolder__c,Prompt__c,TestClassText__c FROM Question__c ];//WHERE Id IN :questionSet.QuestionSetEntries__r];
+        List<Id> setId = new List<Id>();
+        for(Integer i = 0; i < questionSet.QuestionSetEntries__r.size(); i++){
+            setId.add(questionSet.QuestionSetEntries__r[i].Question__c);
+        }
+        questionList = [SELECT Name,QuestionTopic__c,PlaceHolder__c,Prompt__c,TestClassText__c FROM Question__c WHERE Id IN :setId];
         return questionList;
     }
 }
