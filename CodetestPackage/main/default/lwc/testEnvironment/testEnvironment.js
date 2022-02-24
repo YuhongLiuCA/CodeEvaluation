@@ -31,9 +31,10 @@ export default class TestEnvironment extends LightningElement {
         
         this.questionIndex+=1;
 
+        this.submissions.endTime = this.getFormattedDateTime();
         //if(this.questionIndex === this.questionList.questions.length){
             //this.sendTestDataToClient();
-            this.generateResultsReport();
+        this.generateResultsReport();
             //return;
         //}
 
