@@ -1,7 +1,8 @@
 <template>
-    <template if:true={questionSet}>
-    <lightning-card title={questionSet.Name}>
-        <lightning-button label="Solve" variant="brand" slot="actions" onclick={handleSolve}></lightning-button>
-    </lightning-card>
+    <template if:true={questionSet} >        
+            <button  class="question-card-overall" onclick={handleSolve} >
+                <div>{questionSet.Name}</div>   
+                <lightning-button label="Solve" variant="brand" slot="actions" class="question-card-button" ></lightning-button>         
+            </button>          
     </template>
 </template>
