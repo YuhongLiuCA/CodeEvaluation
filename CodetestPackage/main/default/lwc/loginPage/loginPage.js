@@ -1,11 +1,7 @@
 import { LightningElement,wire,track } from 'lwc';
-import SiteUrl from '@salesforce/apex/AuthenticationController.SiteUrl';
 import verifyUser from '@salesforce/apex/AuthenticationController.verifyUser';
 
 export default class LoginPage extends LightningElement {
-    @wire( SiteUrl )
-    url;
-
     @track
     authCode = "";
 
@@ -17,12 +13,6 @@ export default class LoginPage extends LightningElement {
 
     @track
     errorText = "";
-
-    candidateCompanylogo ="candidateLogin Logo";
-
-    get site() {
-        return this.url.data + 'main/s/';
-    }
 
     authCodeChange(event)
     {
@@ -53,7 +43,7 @@ export default class LoginPage extends LightningElement {
         .then((result) => {
             if (result) {
                 validation = true;
-                this.dispatchEvent(new CustomEvent('uservalidated', { detail: validation }));
+                this.dispatchEvent(new CustomEvent('uservalidated',  {detail: { userLoginOK: validation, username: this.username }}));
             } else {
                 this.showError = true;
                 this.errorText =  "User info or auth code not valid, please input again";                
@@ -64,8 +54,5 @@ export default class LoginPage extends LightningElement {
             this.errorText = "Could not connect with server.";
             console.log(error);
         });
-
-
-
     }
 }

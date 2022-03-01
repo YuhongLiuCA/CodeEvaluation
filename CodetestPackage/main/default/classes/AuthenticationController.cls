@@ -15,6 +15,15 @@ public without sharing class AuthenticationController {
         AuthUtil.setDefaultUser();
     }
 
+    @AuraEnabled
+    public static String getAccessKey(Integer len) {
+        Blob blobKey = crypto.generateAesKey(128);
+        String key = EncodingUtil.convertToHex(blobKey);
+        
+        System.debug(key);
+        return key.substring(0,len);
+    }
+
     @AuraEnabled(cacheable=true)
     public static String SiteUrl() {
         ServerInfo__mdt server = [
