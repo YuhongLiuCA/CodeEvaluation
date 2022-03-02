@@ -26,15 +26,35 @@ public with sharing class questionSetCreatorController {
     }
 
     @AuraEnabled
-    public static Boolean insertQuestionSet(String sName, List<String> nameList){
+    public static Boolean insertQuestionSet(String sName, List<String> nameList, String username){
             try {
                 QuestionSet__c qs = [SELECT Id FROM QuestionSet__c WHERE Name = :sName];
-                return false;
+                DELETE qs;
+                
+                List<Question__c> qList = [SELECT Id FROM Question__c WHERE Name IN :nameList];
+
+                QuestionSet__c qSet = new QuestionSet__c();
+                qSet.Name = sName;
+                qSet.User__c = username;
+                INSERT qSet;
+
+                List<QuestionSetEntry__c> insertList = new List<QuestionSetEntry__c>();
+                for (Question__c question : qList) {
+                    QuestionSetEntry__c qSetEntry = new QuestionSetEntry__c();
+                    qSetEntry.QuestionSet__c = qSet.Id;
+                    qSetEntry.Question__c = question.Id;
+                    insertList.add(qSetEntry);
+                }
+
+                INSERT insertList;
+
+                return true;
             } catch (Exception e) {
                 List<Question__c> qList = [SELECT Id FROM Question__c WHERE Name IN :nameList];
 
                 QuestionSet__c qSet = new QuestionSet__c();
                 qSet.Name = sName;
+                qSet.User__c = username;
                 INSERT qSet;
 
                 List<QuestionSetEntry__c> insertList = new List<QuestionSetEntry__c>();

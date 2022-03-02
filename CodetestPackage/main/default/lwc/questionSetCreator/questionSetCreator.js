@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import fetchQuestionList from '@salesforce/apex/questionSetCreatorController.fetchQuestionList';
 import insertQuestionSet from '@salesforce/apex/questionSetCreatorController.insertQuestionSet';
 import checkDupe from '@salesforce/apex/questionSetCreatorController.checkDuplicate';
@@ -12,6 +12,12 @@ export default class QuestionSetCreator extends LightningElement {
     addedQuestionsList = [];
     qSetName = '';
     showLoading = false;
+    @track
+    username = '';
+    @api
+    setUsername(name) {
+        this.username = name;
+    }
 
     constructor() {
         super();
@@ -81,8 +87,12 @@ export default class QuestionSetCreator extends LightningElement {
                 return;
             }
 
-            insertQuestionSet({sName: this.qSetName, nameList: paramList}).then( result => {
+            console.log("Before set insert");
+            console.log("username="+this.username);
+            insertQuestionSet({sName: this.qSetName, nameList: paramList, username: this.username}).then( result => {
                 if (result) {
+                    console.log("Set insert success");
+                    console.log(result);
                     let event = new ShowToastEvent({
                         title: 'Success',
                         message: 'Question set added!',
@@ -101,6 +111,10 @@ export default class QuestionSetCreator extends LightningElement {
                 }
             });
         });
+
+        // Send submit message to client main page
+        let submission = new CustomEvent('questionsetsubmission',{detail: this.username});
+        this.dispatchEvent(submission);
     }
 
     handleNameInput(event) {

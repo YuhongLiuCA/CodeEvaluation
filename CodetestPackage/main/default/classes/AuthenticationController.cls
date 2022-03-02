@@ -16,6 +16,11 @@ public without sharing class AuthenticationController {
     }
 
     @AuraEnabled
+    public static void sendEmailToUser(String username, String code, String c_url){
+        AuthUtil.sendEmailToUser(username,code,c_url);
+    }
+
+    @AuraEnabled
     public static String getAccessKey(Integer len) {
         Blob blobKey = crypto.generateAesKey(128);
         String key = EncodingUtil.convertToHex(blobKey);

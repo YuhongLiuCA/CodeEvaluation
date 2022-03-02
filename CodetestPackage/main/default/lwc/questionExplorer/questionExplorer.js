@@ -17,9 +17,11 @@ export default class QuestionExplorer extends LightningElement {
     }
 
     getQuestionSets(){
+        console.log("username="+this.username);
         getQuestionSet({username: this.username}).then((result) => {
             this.questionSet = result;
         }).catch((error) => {
+            console.log("Explorer error");
             console.log(error);
         });
     }

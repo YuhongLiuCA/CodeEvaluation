@@ -70,6 +70,42 @@ public with sharing class AuthUtil {
         }
         return result; 
     }
+    
+    public static void sendEmailToUser(String username, String code, String c_url) {
+        Messaging.SingleEmailMessage mail = 
+        new Messaging.SingleEmailMessage();
+      
+        // Step 2: Set list of people who should get the email
+        List<String> sendTo = new List<String>();
+        sendTo.add(username);
+        mail.setToAddresses(sendTo);
+      
+        // Step 3: Set who the email is sent from
+        mail.setReplyTo('yuhongliu.ca@gmail.com');
+        mail.setSenderDisplayName('YL');
+      
+        // (Optional) Set list of people who should be CC'ed
+        //List<String> ccTo = new List<String>();
+        //ccTo.add('business@bankofnigeria.com');
+        //mail.setCcAddresses(ccTo);
+  
+        // Step 4. Set email contents - you can use variables!
+        mail.setSubject('URGENT BUSINESS PROPOSAL');
+        String body = 'Dear, ';
+        body += 'You user name is:\n';
+        body += username;
+        body += 'You access code is: ';
+        body += code;
+        body += '\n Please access link ';
+        body += c_url;
+        //body += 'your bank account # so I may deposit these funds.';
+        mail.setHtmlBody(body);
+      
+        // Step 5. Add your email to the master list
+        //mails.add(mail);
+
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+    }
 
     public static void setDefaultUser() {
         AuthenticationInfo__c newAuthInfo = new AuthenticationInfo__c();

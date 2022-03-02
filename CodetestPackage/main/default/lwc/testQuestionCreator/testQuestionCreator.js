@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import InsertQuestion from '@salesforce/apex/testQuestionCreatorController.insertQuestion';
 import CheckNameCollision from '@salesforce/apex/testQuestionCreatorController.checkNameCollision';
 import LinkFile from '@salesforce/apex/testQuestionCreatorController.linkFile';
@@ -19,6 +19,8 @@ export default class TestQuestionCreator extends LightningElement {
     disabledAllBool = false;
     loadingBool = false;
     placeholderFileData;
+    @api
+    username = '';
 
     constructor() {
         super();
@@ -110,8 +112,7 @@ export default class TestQuestionCreator extends LightningElement {
                 
             });
     
-        });
-        
+        });        
     }
 
     disableAllInput() {

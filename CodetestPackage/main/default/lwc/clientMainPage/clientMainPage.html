@@ -3,6 +3,6 @@
     <lightning-button label={generateButtonText} onclick={handleAuthcodeGenerate} class="slds-m-around_medium slds-align_absolute-center"></lightning-button>
     <p><lightning-formatted-text value={authCode} ></lightning-formatted-text></p>
     <!-- <lightning-input class="slds-m-around_medium" type="text" label="Authorization Code" onchange={authCodeChange} placeholder="Enter Code Here"></lightning-input> -->  
-    <c-question-set-creator></c-question-set-creator>
+    <c-question-set-creator onquestionsetsubmission={handleSubmit}></c-question-set-creator>
     <c-test-question-creator></c-test-question-creator>
 </template>
